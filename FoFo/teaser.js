@@ -6,6 +6,13 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let wantsPlayback = !reduceMotion.matches;
 let inView = true;
 
+function showPlaybackState(paused) {
+  const label = paused ? 'Play animation' : 'Pause animation';
+  motionButton.classList.toggle('is-paused', paused);
+  motionButton.setAttribute('aria-label', label);
+  motionButton.title = label;
+}
+
 function correctSourceWidth() {
   // Older Chromium builds select the first playable source regardless of its media query.
   const sources = Array.from(film.querySelectorAll('source'));
@@ -20,7 +27,7 @@ function syncFilm() {
     film.pause();
     return;
   }
-  film.play().catch(() => { motionButton.textContent = 'Play animation'; });
+  film.play().catch(() => { showPlaybackState(film.paused); });
 }
 
 film.addEventListener('loadstart', correctSourceWidth);
@@ -31,8 +38,8 @@ film.addEventListener('ended', () => {
     syncFilm();
   }
 });
-film.addEventListener('playing', () => { motionButton.textContent = 'Pause animation'; });
-film.addEventListener('pause', () => { motionButton.textContent = 'Play animation'; });
+film.addEventListener('playing', () => { showPlaybackState(false); });
+film.addEventListener('pause', () => { showPlaybackState(true); });
 motionButton.addEventListener('click', () => {
   wantsPlayback = film.paused;
   syncFilm();
@@ -53,6 +60,6 @@ film.autoplay = false;
 // Restart on ended so looping also works with WebKit/GStreamer WebM playback.
 film.loop = false;
 film.controls = false;
-motionButton.textContent = film.paused ? 'Play animation' : 'Pause animation';
+showPlaybackState(film.paused);
 correctSourceWidth();
 syncFilm();

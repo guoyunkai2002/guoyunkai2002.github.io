@@ -55,23 +55,24 @@ sup {font-size: .65em; line-height: 0; vertical-align: super}
 a.resource:hover {background: #24543a}
 .teaser {font-size: var(--title-size); width: min(26.4em,calc(100% - 24px)); margin: clamp(20px,2.4vw,38px) auto 0}
 .teaser video {width: 100%; height: auto; display: block; border-radius: 9px; background: #192d23}
-.film-note {display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-block: 11px 13px; color: var(--text); font-size: 14px}
-.motion-control {flex: none; min-height: 32px; border: 1px solid #bed0bd; border-radius: 18px; padding: 4px 12px; font: 550 13px/1.4 var(--sans); color: #2f6044; background: white; cursor: pointer}
+.motion-control {display: grid; place-items: center; width: 36px; height: 36px; margin: 6px 0 0 auto; border: 1px solid #bed0bd; border-radius: 50%; padding: 0; color: #2f6044; background: white; cursor: pointer}
+.motion-control svg {fill: currentColor}
+.motion-control .play-mark,.motion-control.is-paused .pause-mark {display: none}
+.motion-control.is-paused .play-mark {display: inline}
 .motion-control:hover {background: #edf5ec}
 h2 {font-size: clamp(30px,3.05vw,46px); letter-spacing: -.046em; font-weight: 640; line-height: 1.15; text-align: center}
 h3 {font-size: clamp(21px,1.9vw,28px); font-weight: 610; letter-spacing: -.032em; line-height: 1.25}
-.highlights {padding-block: clamp(24px,2.9vw,46px) clamp(38px,4vw,65px)}
-.chart-grid {display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: clamp(12px,1.6vw,24px); margin-top: 24px}
+.highlights {padding-block: clamp(10px,1.4vw,22px) clamp(38px,4vw,65px)}
+.chart-grid {display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: clamp(12px,1.6vw,24px)}
 .chart a {display: block; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: white}
 .chart img {display: block; width: 100%; height: auto}
 .chart figcaption {margin-top: 9px; text-align: center; font-size: clamp(15px,1.2vw,18px); font-weight: 560; line-height: 1.35}
-.chart figcaption small {display: block; margin-top: 4px; color: var(--text); font-size: 13px; font-weight: 400}
 .section {padding-block: clamp(42px,4.6vw,74px)}
 .abstract {border-block: 1px solid var(--line); background: #f4f7f2}
 .abstract-copy {max-width: 78ch; margin: 24px auto 0; color: var(--text); font-size: clamp(16px,1.2vw,18px); line-height: 1.76}
 .abstract-copy p+p {margin-top: .9em}
 .method-intro {display: grid; grid-template-columns: minmax(0,.7fr) minmax(0,1.3fr); align-items: center; gap: clamp(30px,5vw,75px); margin-top: 35px}
-.method-copy p,.real-setup p,.gallery-intro {color: var(--text); font-size: clamp(16px,1.2vw,18px); line-height: 1.65}
+.method-copy p,.real-copy p {color: var(--text); font-size: clamp(16px,1.2vw,18px); line-height: 1.65}
 .method-copy h3 {color: var(--green); margin-bottom: 6px}
 .method-copy h3:not(:first-child) {margin-top: 23px}
 .paper-figure {min-width: 0}
@@ -82,15 +83,15 @@ h3 {font-size: clamp(21px,1.9vw,28px); font-weight: 610; letter-spacing: -.032em
 #fig-architecture {margin: clamp(33px,3.9vw,60px) auto 0; max-width: 1020px}
 .training-note {max-width: 78ch; margin: clamp(30px,3.4vw,49px) auto 0; border-left: 3px solid #91b99b; padding-left: clamp(17px,2vw,28px)}
 .training-note p {margin-top: 10px; color: var(--text); font-size: clamp(16px,1.2vw,18px); line-height: 1.7}
-.real-setup p+p {margin-top: .85em}
+.real-copy {text-align: justify}
+.real-copy p+p {margin-top: .85em}
 .experiment {background: #fafbf8; border-top: 1px solid var(--line)}
 .experiment h3 {text-align: center}
 .sim-demos {margin-top: clamp(27px,2.7vw,42px)}
-.gallery-intro {max-width: 75ch; margin: 9px auto 23px; text-align: center}
 .real-demos {margin-top: clamp(37px,4.2vw,63px); border-top: 1px solid var(--line); padding-top: clamp(32px,3.6vw,54px)}
-.real-setup {display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); align-items: center; gap: clamp(26px,4vw,60px); max-width: 960px; margin: 22px auto 30px}
+.real-setup {display: grid; grid-template-columns: minmax(0,39fr) minmax(0,61fr); align-items: start; gap: clamp(24px,3.2vw,46px); max-width: 1150px; margin: 22px auto 30px}
 .video-grid {display: grid; gap: 21px 14px}
-.sim-grid {grid-template-columns: repeat(5,minmax(0,1fr))}
+.sim-grid {grid-template-columns: repeat(5,minmax(0,1fr)); margin-top: 22px}
 .real-grid {grid-template-columns: repeat(4,minmax(0,1fr))}
 .clip {min-width: 0}
 .clip video {display: block; border-radius: 8px; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #18291d}
@@ -112,6 +113,7 @@ footer p {color: var(--text); font-size: 12px}
 @media(max-width: 960px) {
   .wrap {width: calc(100% - 48px)}
   .chart-grid,.sim-grid,.real-grid {grid-template-columns: repeat(2,minmax(0,1fr))}
+  .real-setup {grid-template-columns: 1fr; max-width: 78ch; gap: 20px}
 }
 @media(max-width: 720px) {
   .wrap {width: calc(100% - 34px)}
@@ -119,11 +121,10 @@ footer p {color: var(--text); font-size: 12px}
   .publication-authors {margin-top: 17px; line-height: 1.6; font-size: 16px}
   .affiliations {display: block; line-height: 1.5}
   .mail {margin-top: 8px}
-  .method-intro,.real-setup {grid-template-columns: 1fr; gap: 20px}
+  .method-intro {grid-template-columns: 1fr; gap: 20px}
   .method-intro {margin-top: 24px}
   .real-setup {margin-top: 18px}
-  .film-note {font-size: 12px; align-items: flex-start; gap: 10px}
-  .motion-control {padding: 4px 9px; font-size: 12px}
+  .real-copy {text-align: start}
   .title-start img {width: 1.02em; height: 1.02em}
   .paper-figure figcaption {font-size: 13px}
   footer {display: block}
@@ -228,7 +229,6 @@ footer p {color: var(--text); font-size: 12px}
   font-size: 13px;
   line-height: 1.55;
 }
-.study-interpretation {margin-top: 24px}
 .table-swipe-hint {display: none; margin: 0 0 7px; color: #4e6053; font-size: 12px}
 @media (max-width: 1077px) {
   .components-hint {display: block}

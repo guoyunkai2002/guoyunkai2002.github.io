@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#e7f1e5">
   <link rel="icon" href="assets/brand/fofo-48.png" sizes="48x48">
-  <link rel="stylesheet" href="styles.css?v=96fd97b9b9fd">
+  <link rel="stylesheet" href="styles.css?v=e7859ac58f04">
   <title>FoFo · Focus and Follow</title>
   <link rel="canonical" href="https://guoyunkai2002.github.io/FoFo/">
   <meta name="description" content="FoFo uses action-to-visual attention from one robot decision to allocate visual patches for the next, with a fixed patch budget and full-image coverage.">
@@ -24,7 +24,7 @@
   <meta name="citation_author" content="Yihong Wu">
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ScholarlyArticle", "name": "Focus and Follow: Action-Guided Patch Allocation with Temporal Priors for Vision-Language-Action Models", "url": "https://guoyunkai2002.github.io/FoFo/", "author": [{"@type": "Person", "name": "Yunkai Guo", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}, "url": "https://guoyunkai2002.github.io/"}, {"@type": "Person", "name": "Chenhui Shi", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Genming Cui", "affiliation": {"@type": "Organization", "name": "University of Science and Technology of China"}}, {"@type": "Person", "name": "Zonghao Guo", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Hao Wei", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Haoran Jiang", "affiliation": {"@type": "Organization", "name": "Traffic Control Technology Co., Ltd."}}, {"@type": "Person", "name": "Yihong Wu", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}, "url": "http://vision.ia.ac.cn/Faculty/yhwu/index.htm"}], "abstract": "Recently, vision-language-action (VLA) models have demonstrated exceptional capability in completing specified tasks. However, most VLAs allocate the same patch density to task-relevant regions as to the background. Existing solutions attempt to implicitly strengthen attention of encoded patch features or explicitly increase patches of task-relevant regions through local image cropping, but the former leaves the initial patch allocation unchanged and the latter needs a substantial computational cost. In addition, we observe that the internal attention distribution of the VLA exhibits short-term continuity along manipulation trajectories. Based on these insights, we propose Focus and Follow (FoFo), an action-guided patch density allocation framework that uses historical attention as a temporal prior. Specifically, Focus uses an action-guided allocation state to assign more patches to task-relevant regions before visual encoding while preserving full-image coverage. Follow uses the historical frame’s attention to determine the allocation state of the current frame and repeats this process at each step. We further introduce a training strategy, which reuses the allocation state of the current frame to provide temporal priors for two adjacent frames along the trajectory, avoiding repeated historical-attention computation. Extensive evaluations in simulation and real-world environments demonstrate that FoFo can significantly improve model success rates with only a few fine-tuning steps and 2.6 ms of additional inference delay, while achieving a significant 5.31× training speedup over historical-attention recomputation.", "inLanguage": "en"}</script>
   <script src="media.js?v=c39df4de00c4" defer></script>
-  <script src="teaser.js?v=6f8a89f3cd6f" defer></script>
+  <script src="teaser.js?v=7950940eefbd" defer></script>
 </head>
 <body>
   <a class="skip" href="#abstract">Skip to abstract</a>
@@ -43,36 +43,34 @@
       </div>
     </header>
     <figure class="teaser" id="trajectory-film">
-      <video id="trajectory-video" width="1200" height="512" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp?v=337494468dc2" aria-label="A bowl lifted onto a shelf in RoboCasa and a ring fitted over a peg by a real robot. Each demonstration shows the camera view, filtered model attention and the resulting patch grid.">
-        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4?v=19c73ed4dd00" type='video/mp4; codecs="avc1.64001E"'>
-        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.webm?v=1d7826fdcc58" type='video/webm; codecs="vp9"'>
-        <source src="assets/teaser/trajectories.mp4?v=f6b4680bed68" type='video/mp4; codecs="avc1.64001F"'>
-        <source src="assets/teaser/trajectories.webm?v=be39745a7002" type='video/webm; codecs="vp9"'>
-        <a href="assets/teaser/trajectories.mp4?v=f6b4680bed68">Download the trajectory film</a>
+      <video id="trajectory-video" width="1200" height="400" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp?v=acf6251a63d8" aria-label="A bowl lifted onto a shelf in RoboCasa and a ring fitted over a peg by a real robot. Each demonstration shows the camera view, filtered model attention and the resulting patch grid.">
+        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4?v=4c28f2f94121" type='video/mp4; codecs="avc1.640015"'>
+        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.webm?v=10c97fe2fcb9" type='video/webm; codecs="vp9"'>
+        <source src="assets/teaser/trajectories.mp4?v=faba90a06ab2" type='video/mp4; codecs="avc1.64001F"'>
+        <source src="assets/teaser/trajectories.webm?v=b0b57ca4cedf" type='video/webm; codecs="vp9"'>
+        <a href="assets/teaser/trajectories.mp4?v=faba90a06ab2">Download the trajectory film</a>
       </video>
-      <figcaption class="film-note">
-        <p>In RoboCasa, a white bowl moves from the counter to a cabinet shelf. On the real robot, a red ring fits over a blue peg. Each demonstration uses one fixed camera from approach through release and withdrawal. The center shows FoFo’s filtered attention. In the simulation, a display adjustment brings out the area around the peak so it can be seen at a scale similar to the real-robot view. Each grid mixes the displayed map (40%) with uniform sampling (60%). The paper uses a 65% attention weight.</p>
-        <button class="motion-control" type="button" aria-controls="trajectory-video" hidden>Pause animation</button>
-      </figcaption>
+      <button class="motion-control" type="button" aria-label="Pause animation" aria-controls="trajectory-video" hidden>
+        <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" focusable="false"><path class="pause-mark" d="M5 3h4v14H5zM12 3h4v14h-4z"/><path class="play-mark" d="M5 2.5v15L17 10z"/></svg>
+      </button>
     </figure>
-    <section class="wrap highlights" aria-labelledby="highlights-title">
-      <h2 id="highlights-title">Key results</h2>
+    <section class="wrap highlights" aria-label="Performance charts">
       <div class="chart-grid">
         <figure class="chart">
           <a href="assets/highlights/simulation-success.svg" aria-label="View simulation success chart at full size"><img loading="lazy" decoding="async" src="assets/highlights/simulation-success.svg" alt="Success on the 18 RoboCasa Atomic-Seen tasks. With FoFo, π₀.₅ improves from 39.6% to 60.3% and Xiaomi-Robotics-1 from 80.2% to 84.1%."></a>
-          <figcaption>Simulation success<small>18 RoboCasa365 Atomic-Seen tasks</small></figcaption>
+          <figcaption>Simulation success</figcaption>
         </figure>
         <figure class="chart">
           <a href="assets/highlights/real-success.svg" aria-label="View real-world success chart at full size"><img loading="lazy" decoding="async" src="assets/highlights/real-success.svg" alt="π₀.₅ and FoFo success rates by task: assembly 48% and 77%, banana 73% and 94%, drawer 68% and 83%, tidying 55% and 67%."></a>
-          <figcaption>Real-world success<small>π<sub>0.5</sub> and FoFo · 100 trials per policy per task</small></figcaption>
+          <figcaption>Real-world success</figcaption>
         </figure>
         <figure class="chart">
           <a href="assets/highlights/inference-overhead.svg" aria-label="View inference time chart at full size"><img loading="lazy" decoding="async" src="assets/highlights/inference-overhead.svg" alt="Extra milliseconds per decision over native π₀.₅: extra crop 190.2, Focus 79.3, Focus + Follow 2.6 and full FoFo 2.6."></a>
-          <figcaption>Inference time<small>Mean extra time per decision</small></figcaption>
+          <figcaption>Inference time</figcaption>
         </figure>
         <figure class="chart">
           <a href="assets/highlights/training-overhead.svg" aria-label="View training time chart at full size"><img loading="lazy" decoding="async" src="assets/highlights/training-overhead.svg" alt="Extra milliseconds per optimizer update over native π₀.₅: extra crop 236.4, Focus 185.6, Focus + Follow 562.0 and full FoFo 9.1."></a>
-          <figcaption>Training time<small>Median extra time per optimizer update</small></figcaption>
+          <figcaption>Training time</figcaption>
         </figure>
       </div>
     </section>
@@ -103,10 +101,10 @@
       </figure>
       </div>
       <figure class="paper-figure" id="fig-architecture">
-        <a href="assets/figures/architecture.webp" aria-label="View Figure 3 at full size">
+        <a href="assets/figures/architecture.webp" aria-label="View Figure 2 at full size">
           <img src="assets/figures/architecture.webp" width="2000" height="1144" alt="FoFo architecture connecting vision and text encoders, the action expert and the next decision’s allocation state." loading="lazy" decoding="async">
         </a>
-        <figcaption><strong>Figure 3. FoFo architecture.</strong> At each decision, the policy produces both the action chunk and the allocation state for the next observation.</figcaption>
+        <figcaption><strong>Figure 2. FoFo architecture.</strong> At each decision, the policy produces both the action chunk and the allocation state for the next observation.</figcaption>
       </figure>
       <div class="training-note">
         <h3>Learning from adjacent observations</h3>
@@ -219,10 +217,10 @@
           <p class="table-note" id="benchmark-note">Baseline values are from the November 1, 2026 RoboCasa365 leaderboard. Parentheses give the change in percentage points from each policy’s published baseline. Bold values mark the highest success rate in each column.</p>
         </section>
         <section class="experiment-study" aria-labelledby="components-title">
-          <h3 id="components-title">Patch allocation and runtime</h3>
+          <h3 id="components-title">Component ablation</h3>
           <div class="study-copy">
-            <p>To isolate the effect of each component, we initialize all five configurations from the same pretrained π<sub>0.5</sub>, train each for 800 steps on five NVIDIA RTX 6000 GPUs, and evaluate on the 18 Atomic-Seen tasks. Each decision executes five actions. Table 2 reports this controlled experiment separately from the main benchmark in Table 1.</p>
-            <p>An extra local crop raises the visual budget from 768 to 1,024 patches. Focus redistributes the original 768 patches, increasing the mean count in task-relevant regions from 25.00 to 64.67 and raising success from 41.3% to 62.8%. Follow carries attention into the next decision, reducing the number of decodes from two to one and inference time from 148.59 to 71.86 ms.</p>
+            <p>Table 2 compares five variants of π<sub>0.5</sub> on RoboCasa. The native policy uses a uniform patch grid. Adding a local crop improves success but uses more patches. Focus raises success further by concentrating the original patch budget on the interaction.</p>
+            <p>Adding Follow carries attention from one decision to the next, reducing the number of decodes from two to one and roughly halving inference time. Full FoFo also reuses the patch allocation during training, making each update 5.31× faster than recomputing past attention at a similar success rate.</p>
           </div>
           <div class="table-caption" id="components-caption"><strong>Table 2.</strong> Patch allocation, manipulation success and computation</div>
           <p class="table-swipe-hint components-hint">Scroll horizontally to see all columns.</p>
@@ -258,13 +256,9 @@
             </table>
           </div>
           <p class="table-note" id="components-note">Inference time is the mean per decision. Training time is the median per optimizer update. Training speedup is relative to Focus + Follow with history recomputation (1.00×).</p>
-          <div class="study-copy study-interpretation">
-            <p>Reusing the allocation state cuts training time from 0.681 to 0.128 seconds per update, a <strong>5.31× speedup</strong> over recomputing the previous attention. Full FoFo reaches <strong>63.0% success</strong> with one decode per decision. Relative to native π<sub>0.5</sub>, it adds 2.6 ms per decision and 9.1 ms per training update.</p>
-          </div>
         </section>
         <section class="sim-demos" aria-labelledby="sim-title">
           <h3 id="sim-title">RoboCasa rollouts</h3>
-          <p class="gallery-intro">Ten successful π<sub>0.5</sub> + FoFo episodes from the 17-task study. The clips replay the recorded actions at 2× speed.</p>
       <div class="video-grid sim-grid"><figure class="clip">
           <video controls muted playsinline preload="none" poster="data:image/webp;base64,UklGRrQDAABXRUJQVlA4IKgDAABwFQCdASpQAFAAPuVkqlEpJSOip7gLySAciWcA0f+2Cyy29rbHyjo9Z64O3e/ogSCHP6rcNxrcxe1PgSMdd/5gb2HjSQE38nwO9hBqTmNF8VbVIGNa1MpfGk+vap+tJ1M6wonNkaVHyOkKfmkr4LxkM0C06Ex5OGW5fkIGEpUBgEMSYLXxkqsBhWTc2OKmpLDTL6xcynh3uUmYonX2p4Bwbx2Z9bPReIJ/dHxO6VqtpkyVxQAA/uyusJiJwPjN8Os6i4y5W/9EQxJRZ8WtwoEMNS6c8zS1GIIAi07Oexg0XyGBg8kwQvMDh3XXF6B/XaTCiGAC15OJl8kAngyVyOrt3FvNLZajHUB2GeHtKbsVgI218+I5TAQvZCvIaOHPIxBJQpvggpnjIekDBQZmq8L0Bf0/ZjcZfWfEuYV51/nPhZAswyf1K68JRnWDq6WhIyOlKhZgKqHuTZCDXgenuaozvOlU3H1XZLk+kYnP93Qly3vkFvbehqC3t2g/1A45j8qC1MPMERigfC/kesY0pk2WJt1QzgOM6szKHc9UblyQuC8MhfgRujBCocP54FZ1XPSS7+RRbV31NXNT6U0p59YIPemhVKCjLiYz2v56F3EqoXe7Viw3ojbp7mhaiNRVIF9hzCnwTpeye6OR/4gpZSzBrBQx59XaAnw2S0EoNFK00sWwMFX2r2c6ZvAdJCLLYVD79Tg5VeLzVoJu+tbd3IqsZu1ehMHVNg3WYoCxjVqcqYdNjtx8h9L8kaIx0IeUyeiwK7NRuD1pFGg9zyL7kAfqIZiyzbvU3qr52B4ExkD0lK8uwuol+YoMUa+hF7giZHaV+E38VUZUTTXS6cDI/r+Sa2bbAk5utZzT8NNHx30EOvycvsfz1KsStjs8pJUM1YrCwYj6AfsZw1BuDyDgoC1VugyhWsEt5RWVxAI/bvomPLnlpo5/19YNrafsXNCh/1KTShe95QTNJznpN20wYtpR/KVErCidFrTgjObqFOa/BrMjRBVkTElrvZARh2a239fZnNoqo7RONo3l1AQlLMP3pcMowFB1Nwx40YWPQz53BqJe0yLA4jg1hQ68rDHR+/vC0pmp2/kdrOb7KAXxzPJcxDM+AW+ElzhOOXQTnFuDTGh1OEkVEFHnPwMdrc8y70wTXww6KWpl50Kv6T+C/EgBxOY4mv5uxox9cMglFKJwf/4Gyfm5u71SzR1aR56dUU0kQb9iWuHiArTOEQLc15jJulOj6IXMAAA=" data-poster="assets/robocasa/close-fridge.webp" aria-label="Close the fridge" width="480" height="480"><source src="assets/robocasa/close-fridge.mp4" type='video/mp4; codecs="avc1.640016"'><source src="assets/robocasa/close-fridge.webm" type='video/webm; codecs="vp9"'><a href="assets/robocasa/close-fridge.mp4">Download video</a></video>
           <figcaption><a class="clip-file" href="assets/robocasa/close-fridge.mp4" aria-label="Open video file: Close the fridge">Close the fridge</a><span class="clip-status" role="status" hidden>Playback unavailable. <a href="assets/robocasa/close-fridge.mp4" download>Download MP4</a> · <a href="assets/robocasa/close-fridge.webm" download>Download WebM</a></span></figcaption>
@@ -310,12 +304,12 @@
           <h3 id="real-title">Real-robot demonstrations</h3>
           <div class="real-setup">
             <figure class="paper-figure" id="fig-setup">
-        <a href="assets/figures/realrobot-setup.webp" aria-label="View Figure S3 at full size">
-          <img src="assets/figures/realrobot-setup.webp" width="1807" height="1135" alt="A PiPER arm at a tabletop, with the two external cameras, wrist camera, two tracker base stations and handheld controller marked in the photograph." loading="lazy" decoding="async">
-        </a>
-        <figcaption><strong>Figure S3. Real-world demonstration setup.</strong> Green marks the arm, orange the cameras and blue the teleoperation equipment.</figcaption>
-      </figure>
-            <div>
+              <a href="assets/figures/realrobot-setup.webp" aria-label="View Figure 3 at full size">
+                <img src="assets/figures/realrobot-setup.webp" width="1807" height="1135" alt="A PiPER arm at a tabletop, with the two external cameras, wrist camera, two tracker base stations and handheld controller marked in the photograph." loading="lazy" decoding="async">
+              </a>
+              <figcaption><strong>Figure 3. Real-world demonstration setup.</strong> Green marks the arm, orange the cameras and blue the teleoperation equipment.</figcaption>
+            </figure>
+            <div class="real-copy">
               <p>We collected 100 demonstrations per task by teleoperating a six-axis AgileX PiPER arm with a PIKA handheld unit. Two external cameras record the workspace, and a wrist camera captures close interactions. The four demonstrations below play at their recorded speed.</p>
               <p>We evaluated each policy in 100 trials per task with varied object placements. Assembly showed the largest gain, from 48 to 77 successes. In the task-relevant region, the mean patch count rose from 25 to 79, giving the policy a denser view of the small part and its target peg.</p>
             </div>
