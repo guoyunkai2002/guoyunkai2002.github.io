@@ -43,13 +43,15 @@
       </div>
     </header>
     <figure class="teaser" id="trajectory-film">
-      <video id="trajectory-video" width="1200" height="512" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp?v=6c821fb7b79a" aria-label="RoboCasa and real-robot footage with display-filtered attention and the recorded sampling grid">
-        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4?v=8c88cccc353a" type="video/mp4">
-        <source src="assets/teaser/trajectories.mp4?v=fba1525de256" type="video/mp4">
-        <a href="assets/teaser/trajectories.mp4?v=fba1525de256">Download the trajectory film</a>
+      <video id="trajectory-video" width="1200" height="512" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp?v=bee64116eff3" aria-label="Complete RoboCasa mug placement with attention and patch allocation, followed by a complete real-robot part placement">
+        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4?v=fe4e8677a3a7" type='video/mp4; codecs="avc1.64001E"'>
+        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.webm?v=9a22eeee2d89" type='video/webm; codecs="vp9"'>
+        <source src="assets/teaser/trajectories.mp4?v=a9bac2a68389" type='video/mp4; codecs="avc1.64001F"'>
+        <source src="assets/teaser/trajectories.webm?v=af358c9c6e47" type='video/webm; codecs="vp9"'>
+        <a href="assets/teaser/trajectories.mp4?v=a9bac2a68389">Download the trajectory film</a>
       </video>
       <figcaption class="film-note">
-        <p>The robot stirs vegetables in a successful RoboCasa rollout. The real-robot excerpt replays FoFo offline as the gripper lifts a green vegetable. The center view filters isolated peaks in the preceding decision’s attention for display. The right view shows the grid FoFo actually used.</p>
+        <p>In RoboCasa, the robot takes a red mug from a shelf, places it under the dispenser and starts the coffee machine. The center panel shows filtered action-guided attention. The right panel recomputes the patch grid from that same heatmap. The real-robot recording shows a red ring placed on a blue peg from two synchronized cameras, through release and gripper withdrawal.</p>
         <button class="motion-control" type="button" aria-controls="trajectory-video" hidden>Pause animation</button>
       </figcaption>
     </figure>
