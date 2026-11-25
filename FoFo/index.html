@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fafbf7">
+  <link rel="icon" href="assets/brand/fofo-48.png" sizes="48x48">
+  <link rel="stylesheet" href="styles.css">
+  <title>FoFo · Focus and Follow</title>
+  <link rel="canonical" href="https://guoyunkai2002.github.io/FoFo/">
+  <meta name="description" content="FoFo uses action-to-visual attention from one robot decision to allocate visual patches for the next, with a fixed patch budget and full-image coverage.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Focus and Follow: Action-Guided Patch Allocation with Temporal Priors for Vision-Language-Action Models">
+  <meta property="og:description" content="FoFo uses action-to-visual attention from one robot decision to allocate visual patches for the next, with a fixed patch budget and full-image coverage.">
+  <meta property="og:url" content="https://guoyunkai2002.github.io/FoFo/">
+  <meta property="og:image" content="https://guoyunkai2002.github.io/FoFo/assets/figures/motivation.webp">
+  <meta name="citation_title" content="Focus and Follow: Action-Guided Patch Allocation with Temporal Priors for Vision-Language-Action Models">
+  <meta name="citation_author" content="Yunkai Guo">
+  <meta name="citation_author" content="Chenhui Shi">
+  <meta name="citation_author" content="Genming Cui">
+  <meta name="citation_author" content="Zonghao Guo">
+  <meta name="citation_author" content="Hao Wei">
+  <meta name="citation_author" content="Haoran Jiang">
+  <meta name="citation_author" content="Yihong Wu">
+  <meta name="citation_pdf_url" content="https://guoyunkai2002.github.io/FoFo/FoFo.pdf">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ScholarlyArticle", "name": "Focus and Follow: Action-Guided Patch Allocation with Temporal Priors for Vision-Language-Action Models", "url": "https://guoyunkai2002.github.io/FoFo/", "encoding": {"@type": "MediaObject", "contentUrl": "https://guoyunkai2002.github.io/FoFo/FoFo.pdf", "encodingFormat": "application/pdf"}, "author": [{"@type": "Person", "name": "Yunkai Guo", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}, "url": "https://guoyunkai2002.github.io/"}, {"@type": "Person", "name": "Chenhui Shi", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Genming Cui", "affiliation": {"@type": "Organization", "name": "University of Science and Technology of China"}}, {"@type": "Person", "name": "Zonghao Guo", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Hao Wei", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}, {"@type": "Person", "name": "Haoran Jiang", "affiliation": {"@type": "Organization", "name": "Traffic Control Technology Co., Ltd."}}, {"@type": "Person", "name": "Yihong Wu", "affiliation": {"@type": "Organization", "name": "Institute of Automation, Chinese Academy of Sciences"}}], "abstract": "Recently, vision-language-action (VLA) models have demonstrated exceptional capability in completing specified tasks. However, most VLAs allocate the same patch density to task-relevant regions as to the background. Existing solutions attempt to implicitly strengthen attention of encoded patch features or explicitly increase patches of task-relevant regions through local image cropping, but the former leaves the initial patch allocation unchanged and the latter needs a substantial computational cost. In addition, we observe that the internal attention distribution of the VLA exhibits short-term continuity along manipulation trajectories. Based on these insights, we propose Focus and Follow (FoFo), an action-guided patch density allocation framework that uses historical attention as a temporal prior. Specifically, Focus uses an action-guided allocation state to assign more patches to task-relevant regions before visual encoding while preserving full-image coverage. Follow uses the historical frame’s attention to determine the allocation state of the current frame and repeats this process at each step. We further introduce a training strategy, which reuses the allocation state of the current frame to provide temporal priors for two adjacent frames along the trajectory, avoiding repeated historical-attention computation. Extensive evaluations in simulation and real-world environments demonstrate that FoFo can significantly improve model success rates with only a few fine-tuning steps and 2.6 ms of additional inference delay, while achieving a significant 5.31× training speedup over historical-attention recomputation.", "inLanguage": "en"}</script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main-content">Skip to content</a>
+  <header class="site-bar"><div class="wrap bar-inner">
+    <a class="wordmark" href="#main-content" aria-label="FoFo project home"><img src="assets/brand/fofo-48.png" srcset="assets/brand/fofo-256.png 2x" width="38" height="38" alt=""><span>FoFo</span></a>
+    <nav aria-label="Page sections"><a href="#method">Method</a><a href="#results">Results</a><a href="#demos">Demos</a></nav>
+  </div></header>
+  <main id="main-content">
+    <section class="hero"><div class="wrap hero-body">
+      <div class="hero-copy">
+        <h1 class="publication-title"><span class="display">Focus <em>and Follow</em></span><span class="visually-hidden">: </span><span class="subtitle">Action-Guided Patch Allocation with Temporal Priors for Vision-Language-Action Models</span></h1>
+        <div class="publication-authors"><span class="author-block"><a href="https://guoyunkai2002.github.io/" rel="author">Yunkai Guo</a><sup>1</sup>,</span> <span class="author-block">Chenhui Shi<sup>1</sup>,</span> <span class="author-block">Genming Cui<sup>2</sup>,</span> <span class="author-block">Zonghao Guo<sup>1</sup>,</span> <span class="author-block">Hao Wei<sup>1</sup>,</span> <span class="author-block">Haoran Jiang<sup>3</sup>,</span> <span class="author-block">Yihong Wu<sup>1</sup></span></div>
+        <ul class="affiliations"><li><sup>1</sup> Institute of Automation, Chinese Academy of Sciences</li><li><sup>2</sup> University of Science and Technology of China</li><li><sup>3</sup> Traffic Control Technology Co., Ltd.</li></ul>
+        <a class="mail" href="mailto:guoyunkai2025@ia.ac.cn">guoyunkai2025@ia.ac.cn</a>
+        <div class="publication-links"><a class="resource" href="FoFo.pdf"><img src="assets/icons/paper.svg" width="19" height="19" alt="">Paper</a><a class="resource" href="code.html"><img src="assets/icons/code.svg" width="19" height="19" alt="">Code</a><button type="button" class="resource" disabled title="The arXiv record will be linked after posting." aria-label="arXiv, awaiting posting"><img src="assets/icons/arxiv.svg" width="18" height="18" alt="">arXiv</button></div>
+      </div>
+      <figure class="viewer">
+        <div class="viewer-head"><span>Patch allocation</span><span>16 × 16 patches</span></div>
+        <div class="viewer-body">
+          <div class="scene"><img src="assets/figures/sink-observation.png" width="256" height="256" alt="A robot gripper over a sink in a RoboCasa kitchen. The sampling grid can be switched between uniform and action-guided allocation.">
+            <div aria-hidden="true" class="grid-lines"><i class="x" style="--adaptive:6.5736%;--uniform:6.25%"></i>
+              <i class="x" style="--adaptive:10.2749%;--uniform:12.5%"></i>
+              <i class="x" style="--adaptive:14.7773%;--uniform:18.75%"></i>
+              <i class="x" style="--adaptive:21.3072%;--uniform:25.0%"></i>
+              <i class="x" style="--adaptive:30.7349%;--uniform:31.25%"></i>
+              <i class="x" style="--adaptive:39.1871%;--uniform:37.5%"></i>
+              <i class="x" style="--adaptive:44.0191%;--uniform:43.75%"></i>
+              <i class="x" style="--adaptive:47.4155%;--uniform:50.0%"></i>
+              <i class="x" style="--adaptive:51.1823%;--uniform:56.25%"></i>
+              <i class="x" style="--adaptive:55.6618%;--uniform:62.5%"></i>
+              <i class="x" style="--adaptive:61.3217%;--uniform:68.75%"></i>
+              <i class="x" style="--adaptive:67.0703%;--uniform:75.0%"></i>
+              <i class="x" style="--adaptive:73.2067%;--uniform:81.25%"></i>
+              <i class="x" style="--adaptive:80.2339%;--uniform:87.5%"></i>
+              <i class="x" style="--adaptive:90.1971%;--uniform:93.75%"></i>
+              <i class="y" style="--adaptive:13.0800%;--uniform:6.25%"></i>
+              <i class="y" style="--adaptive:25.3550%;--uniform:12.5%"></i>
+              <i class="y" style="--adaptive:33.9042%;--uniform:18.75%"></i>
+              <i class="y" style="--adaptive:41.1976%;--uniform:25.0%"></i>
+              <i class="y" style="--adaptive:48.4832%;--uniform:31.25%"></i>
+              <i class="y" style="--adaptive:55.1230%;--uniform:37.5%"></i>
+              <i class="y" style="--adaptive:59.6398%;--uniform:43.75%"></i>
+              <i class="y" style="--adaptive:62.9127%;--uniform:50.0%"></i>
+              <i class="y" style="--adaptive:64.5088%;--uniform:56.25%"></i>
+              <i class="y" style="--adaptive:66.1162%;--uniform:62.5%"></i>
+              <i class="y" style="--adaptive:67.6834%;--uniform:68.75%"></i>
+              <i class="y" style="--adaptive:70.6797%;--uniform:75.0%"></i>
+              <i class="y" style="--adaptive:77.7858%;--uniform:81.25%"></i>
+              <i class="y" style="--adaptive:87.4906%;--uniform:87.5%"></i>
+              <i class="y" style="--adaptive:94.7369%;--uniform:93.75%"></i></div>
+          </div>
+        </div>
+        <figcaption><span class="viewer-label">RoboCasa</span><fieldset class="switch"><legend class="visually-hidden">Patch allocation mode</legend>
+          <label><input type="radio" name="grid" value="uniform"><span>Uniform</span></label>
+          <label><input type="radio" name="grid" value="adaptive" checked><span>FoFo</span></label>
+        </fieldset></figcaption>
+      </figure>
+    </div></section>
+    <section class="section wrap" id="method" aria-labelledby="method-title">
+      <div class="section-intro"><h2 id="method-title">How FoFo works</h2>
+        <p><strong>Focus</strong> moves visual patches toward the object the robot is manipulating. <strong>Follow</strong> uses attention from the preceding decision to place those patches in the next frame. The full image remains in view at a fixed token budget.</p>
+      </div>
+      <details class="abstract"><summary>Read the abstract</summary><p>Recently, vision-language-action (VLA) models have demonstrated exceptional capability in completing specified tasks. However, most VLAs allocate the same patch density to task-relevant regions as to the background. Existing solutions attempt to implicitly strengthen attention of encoded patch features or explicitly increase patches of task-relevant regions through local image cropping, but the former leaves the initial patch allocation unchanged and the latter needs a substantial computational cost. In addition, we observe that the internal attention distribution of the VLA exhibits short-term continuity along manipulation trajectories. Based on these insights, we propose Focus and Follow (FoFo), an action-guided patch density allocation framework that uses historical attention as a temporal prior. Specifically, Focus uses an action-guided allocation state to assign more patches to task-relevant regions before visual encoding while preserving full-image coverage. Follow uses the historical frame’s attention to determine the allocation state of the current frame and repeats this process at each step. We further introduce a training strategy, which reuses the allocation state of the current frame to provide temporal priors for two adjacent frames along the trajectory, avoiding repeated historical-attention computation. Extensive evaluations in simulation and real-world environments demonstrate that FoFo can significantly improve model success rates with only a few fine-tuning steps and 2.6 ms of additional inference delay, while achieving a significant 5.31× training speedup over historical-attention recomputation.</p></details>
+      <fieldset class="figure-picker" hidden><legend class="visually-hidden">Paper figures</legend><label><input type="radio" name="figure" value="architecture" aria-controls="fig-architecture" checked><span>Architecture</span></label>
+          <label><input type="radio" name="figure" value="motivation" aria-controls="fig-motivation" ><span>Temporal prior</span></label>
+          <label><input type="radio" name="figure" value="comparison" aria-controls="fig-comparison" ><span>Visual strategies</span></label>
+          <label><input type="radio" name="figure" value="allocation" aria-controls="fig-allocation" ><span>Grid construction</span></label>
+          <label><input type="radio" name="figure" value="attention-sweep" aria-controls="fig-attention-sweep" ><span>Attention weight</span></label>
+          <label><input type="radio" name="figure" value="real-allocation" aria-controls="fig-real-allocation" ><span>Real-world examples</span></label></fieldset>
+      <div class="figure-stage"><figure id="fig-architecture" class="paper-figure">
+          <a class="figure-image" href="assets/figures/architecture.webp" aria-label="Open full-size figure: Architecture"><img src="assets/figures/architecture.webp" alt="FoFo architecture connecting vision and text encoders, the action expert and the next decision’s allocation state." loading="lazy"></a>
+          <figcaption><span>An action chunk and the next allocation state are produced in the same policy forward pass. Follow carries the state into the next decision.</span><a href="assets/figures/architecture.webp" aria-label="Open full-size figure: Architecture">Full size ↗</a></figcaption>
+        </figure>
+        <figure id="fig-motivation" class="paper-figure">
+          <a class="figure-image" href="assets/figures/motivation.webp" aria-label="Open full-size figure: Temporal prior"><img src="assets/figures/motivation.webp" alt="Uniform and action-guided grids above two adjacent robot observations with similar attention." loading="lazy"></a>
+          <figcaption><span>Adjacent observations along a manipulation trajectory can share a similar attention pattern. The paper illustrates this continuity with two consecutive frames.</span><a href="assets/figures/motivation.webp" aria-label="Open full-size figure: Temporal prior">Full size ↗</a></figcaption>
+        </figure>
+        <figure id="fig-comparison" class="paper-figure">
+          <a class="figure-image" href="assets/figures/comparison.webp" aria-label="Open full-size figure: Visual strategies"><img src="assets/figures/comparison.webp" alt="Comparison of internal attention enhancement, local cropping and action-guided patch allocation." loading="lazy"></a>
+          <figcaption><span>The three panels show attention enhancement after encoding, a supplemental local crop, and FoFo’s reallocation of existing patches before encoding.</span><a href="assets/figures/comparison.webp" aria-label="Open full-size figure: Visual strategies">Full size ↗</a></figcaption>
+        </figure>
+        <figure id="fig-allocation" class="paper-figure">
+          <a class="figure-image" href="assets/figures/allocation.webp" aria-label="Open full-size figure: Grid construction"><img src="assets/figures/allocation.webp" alt="Five steps mapping policy attention to a nonuniform sampling grid." loading="lazy"></a>
+          <figcaption><span>The allocation update combines prefix and action-expert attention, transports it into image coordinates, and inverts the axis-wise cumulative distributions.</span><a href="assets/figures/allocation.webp" aria-label="Open full-size figure: Grid construction">Full size ↗</a></figcaption>
+        </figure>
+        <figure id="fig-attention-sweep" class="paper-figure">
+          <a class="figure-image" href="assets/figures/attention-sweep.webp" aria-label="Open full-size figure: Attention weight"><img src="assets/figures/attention-sweep.webp" alt="Four rows of kitchen observations showing the same patch budget at eight attention weights." loading="lazy"></a>
+          <figcaption><span>Increasing the attention weight concentrates patches into a smaller part of the image. The paper uses a weight of 0.65 to retain surrounding context.</span><a href="assets/figures/attention-sweep.webp" aria-label="Open full-size figure: Attention weight">Full size ↗</a></figcaption>
+        </figure>
+        <figure id="fig-real-allocation" class="paper-figure">
+          <a class="figure-image" href="assets/figures/real-allocation.webp" aria-label="Open full-size figure: Real-world examples"><img src="assets/figures/real-allocation.webp" alt="Photographs comparing uniform and adaptive patch allocation for three real-world tasks." loading="lazy"></a>
+          <figcaption><span>The paper compares local patch allocation around an assembly peg, a banana and a drawer handle.</span><a href="assets/figures/real-allocation.webp" aria-label="Open full-size figure: Real-world examples">Full size ↗</a></figcaption>
+        </figure></div>
+    </section>
+    <section class="results" id="results" aria-labelledby="results-title"><div class="wrap section">
+      <div class="section-intro"><h2 id="results-title">Results</h2><p>FoFo improves manipulation success on both evaluated VLA architectures. On real hardware, the largest gain is in assembling a small part onto a peg.</p></div>
+      <div class="metrics">
+        <div><strong>+19.25 <small>pp</small></strong><p>Mean success gain over π<sub>0.5</sub> across four real-robot tasks</p></div>
+        <div><strong>2.6 <small>ms</small></strong><p>Additional mean inference time per π<sub>0.5</sub> decision</p></div>
+        <div><strong>5.31<small>×</small></strong><p>Faster optimizer updates than recomputing the attention history</p></div>
+      </div>
+      <table><caption>RoboCasa365 <span>Overall success across 50 tasks</span></caption>
+        <thead><tr><th scope="col">Policy</th><th scope="col">Base</th><th scope="col">+ FoFo</th><th scope="col">Gain</th></tr></thead>
+        <tbody><tr><th scope="row">π<sub>0.5</sub></th><td>16.9%</td><td>32.5%</td><td>+15.6 pp</td></tr>
+        <tr><th scope="row">Xiaomi-Robotics-1</th><td>57.4%</td><td>59.9%</td><td>+2.5 pp</td></tr></tbody>
+      </table>
+    </div></section>
+    <section class="wrap section demos" id="demos" aria-labelledby="sim-title">
+      <div class="section-intro"><h2 id="sim-title">RoboCasa rollouts</h2><p>Ten successful episodes from the 17-task π<sub>0.5</sub> + FoFo study (500 fine-tuning steps). Each clip replays the recorded actions at 2× speed.</p></div>
+      <div class="video-grid sim-grid"><figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/close-fridge.jpg" aria-label="Close the fridge" width="480" height="480"><source src="assets/robocasa/close-fridge.mp4" type="video/mp4"><a href="assets/robocasa/close-fridge.mp4">Download video</a></video>
+          <figcaption>Close the fridge</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/open-cabinet.jpg" aria-label="Open the cabinet" width="480" height="480"><source src="assets/robocasa/open-cabinet.mp4" type="video/mp4"><a href="assets/robocasa/open-cabinet.mp4">Download video</a></video>
+          <figcaption>Open the cabinet</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/open-drawer.jpg" aria-label="Open the drawer" width="480" height="480"><source src="assets/robocasa/open-drawer.mp4" type="video/mp4"><a href="assets/robocasa/open-drawer.mp4">Download video</a></video>
+          <figcaption>Open the drawer</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/open-stand-mixer.jpg" aria-label="Open the stand mixer head" width="480" height="480"><source src="assets/robocasa/open-stand-mixer.mp4" type="video/mp4"><a href="assets/robocasa/open-stand-mixer.mp4">Download video</a></video>
+          <figcaption>Open the stand mixer head</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/slide-dishwasher-rack.jpg" aria-label="Slide in the dishwasher rack" width="480" height="480"><source src="assets/robocasa/slide-dishwasher-rack.mp4" type="video/mp4"><a href="assets/robocasa/slide-dishwasher-rack.mp4">Download video</a></video>
+          <figcaption>Slide in the dishwasher rack</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/counter-to-cabinet.jpg" aria-label="Move a tomato into the cabinet" width="480" height="480"><source src="assets/robocasa/counter-to-cabinet.mp4" type="video/mp4"><a href="assets/robocasa/counter-to-cabinet.mp4">Download video</a></video>
+          <figcaption>Move a tomato into the cabinet</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/counter-to-stove.jpg" aria-label="Place shrimp in the pan" width="480" height="480"><source src="assets/robocasa/counter-to-stove.mp4" type="video/mp4"><a href="assets/robocasa/counter-to-stove.mp4">Download video</a></video>
+          <figcaption>Place shrimp in the pan</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/set-up-coffee-mug.jpg" aria-label="Place a mug under the dispenser" width="480" height="480"><source src="assets/robocasa/set-up-coffee-mug.mp4" type="video/mp4"><a href="assets/robocasa/set-up-coffee-mug.mp4">Download video</a></video>
+          <figcaption>Place a mug under the dispenser</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/turn-on-kettle.jpg" aria-label="Turn on the kettle" width="480" height="480"><source src="assets/robocasa/turn-on-kettle.mp4" type="video/mp4"><a href="assets/robocasa/turn-on-kettle.mp4">Download video</a></video>
+          <figcaption>Turn on the kettle</figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/robocasa/turn-on-faucet.jpg" aria-label="Turn on the sink faucet" width="480" height="480"><source src="assets/robocasa/turn-on-faucet.mp4" type="video/mp4"><a href="assets/robocasa/turn-on-faucet.mp4">Download video</a></video>
+          <figcaption>Turn on the sink faucet</figcaption>
+        </figure></div>
+    </section>
+    <section class="wrap section real-demos" aria-labelledby="real-title">
+      <div class="section-intro"><h2 id="real-title">Real-robot demonstrations</h2><p>Four recorded task demonstrations from the real-world dataset, shown from the external camera at their original speed.</p></div>
+      <div class="video-grid real-grid"><figure class="clip">
+          <video controls playsinline preload="none" poster="assets/real/assemble-parts.jpg" aria-label="Assemble Parts" width="480" height="360"><source src="assets/real/assemble-parts.mp4" type="video/mp4"><a href="assets/real/assemble-parts.mp4">Download video</a></video>
+          <figcaption>Assemble Parts<small>Place the red part onto the blue peg.</small></figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/real/place-banana.jpg" aria-label="Place Banana" width="480" height="360"><source src="assets/real/place-banana.mp4" type="video/mp4"><a href="assets/real/place-banana.mp4">Download video</a></video>
+          <figcaption>Place Banana<small>Put the banana in the basket.</small></figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/real/open-drawer.jpg" aria-label="Open Drawer" width="480" height="360"><source src="assets/real/open-drawer.mp4" type="video/mp4"><a href="assets/real/open-drawer.mp4">Download video</a></video>
+          <figcaption>Open Drawer<small>Open the pink middle drawer.</small></figcaption>
+        </figure>
+        <figure class="clip">
+          <video controls playsinline preload="none" poster="assets/real/tidy-table.jpg" aria-label="Tidy Table" width="480" height="360"><source src="assets/real/tidy-table.mp4" type="video/mp4"><a href="assets/real/tidy-table.mp4">Download video</a></video>
+          <figcaption>Tidy Table<small>First place the purple eggplant in the pink plate, then place the green vegetable in the blue plate.</small></figcaption>
+        </figure></div>
+    </section>
+  </main>
+  <footer class="wrap"><a class="wordmark" href="#main-content"><img src="assets/brand/fofo-48.png" srcset="assets/brand/fofo-256.png 2x" width="38" height="38" alt=""><span>FoFo</span></a><p>Page design adapted from the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">Academic Project Page Template</a> and <a href="https://nerfies.github.io/">Nerfies</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 (site design)</a></p></footer>
+</body>
+</html>
