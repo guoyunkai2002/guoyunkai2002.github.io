@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg role="img" aria-labelledby="chart-title chart-description" xmlns:xlink="http://www.w3.org/1999/xlink" width="262.8pt" height="176.4pt" viewBox="0 0 262.8 176.4" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title id="chart-title">Training overhead</title>
+ <desc id="chart-description">Extra median time per optimizer update above native π₀.₅: extra local crop 236.4 ms, Focus 185.6 ms, Focus + Follow 562.0 ms, FoFo 9.1 ms.</desc>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>Training overhead</dc:title>
+    <dc:description>Extra median time per optimizer update above native π₀.₅: extra local crop 236.4 ms, Focus 185.6 ms, Focus + Follow 562.0 ms, FoFo 9.1 ms.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.5.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 176.4
+L 262.8 176.4
+L 262.8 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 84.096 148.176
+L 254.916 148.176
+L 254.916 47.628
+L 84.096 47.628
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 84.096 148.176
+L 84.096 47.628
+" clip-path="url(#p8e1f5d756a)" style="fill: none; stroke: #dbe4dc; stroke-width: 0.65; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2"/>
+     <g id="text_1">
+      <text style="fill: #415b50; font: 9.6px 'DejaVu Sans'; text-anchor: middle" x="84.096" y="158.9705" transform="rotate(-0, 84.096, 158.9705)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 151.084235 148.176
+L 151.084235 47.628
+" clip-path="url(#p8e1f5d756a)" style="fill: none; stroke: #dbe4dc; stroke-width: 0.65; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4"/>
+     <g id="text_2">
+      <text style="fill: #415b50; font: 9.6px 'DejaVu Sans'; text-anchor: middle" x="151.084235" y="158.9705" transform="rotate(-0, 151.084235, 158.9705)">300</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 218.072471 148.176
+L 218.072471 47.628
+" clip-path="url(#p8e1f5d756a)" style="fill: none; stroke: #dbe4dc; stroke-width: 0.65; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6"/>
+     <g id="text_3">
+      <text style="fill: #415b50; font: 9.6px 'DejaVu Sans'; text-anchor: middle" x="218.072471" y="158.9705" transform="rotate(-0, 218.072471, 158.9705)">600</text>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_7"/>
+     <g id="text_4">
+      <text style="fill: #415b50; font: 9.5px 'DejaVu Sans'; text-anchor: end" x="79.096" y="64.725404" transform="rotate(-0, 79.096, 64.725404)">Extra crop</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_8"/>
+     <g id="text_5">
+      <text style="fill: #415b50; font: 9.5px 'DejaVu Sans'; text-anchor: end" x="79.096" y="89.249307" transform="rotate(-0, 79.096, 89.249307)">Focus</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_9"/>
+     <g id="text_6">
+      <text style="fill: #415b50; font: 9.5px 'DejaVu Sans'; text-anchor: end" x="79.096" y="113.773209" transform="rotate(-0, 79.096, 113.773209)">Focus + Follow</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_10"/>
+     <g id="text_7">
+      <text style="fill: #11633b; font: 700 9.5px 'DejaVu Sans'; text-anchor: end" x="79.096" y="138.297111" transform="rotate(-0, 79.096, 138.297111)">FoFo</text>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_11">
+    <path d="M 84.096 148.176
+L 84.096 47.628
+" clip-path="url(#p8e1f5d756a)" style="fill: none; stroke: #82968b; stroke-width: 0.9; stroke-linecap: square"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 84.096 54.372073
+L 136.873119 54.372073
+L 136.873119 67.86022
+L 84.096 67.86022
+z
+" clip-path="url(#p8e1f5d756a)" style="fill: #a9b8b2"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 84.096 78.895976
+L 125.532692 78.895976
+L 125.532692 92.384122
+L 84.096 92.384122
+z
+" clip-path="url(#p8e1f5d756a)" style="fill: #a9b8b2"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 84.096 103.419878
+L 209.5815 103.419878
+L 209.5815 116.908024
+L 84.096 116.908024
+z
+" clip-path="url(#p8e1f5d756a)" style="fill: #a9b8b2"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 84.096 127.94378
+L 86.137878 127.94378
+L 86.137878 141.431927
+L 84.096 141.431927
+z
+" clip-path="url(#p8e1f5d756a)" style="fill: #18af63"/>
+   </g>
+   <g id="text_8">
+    <text style="fill: #192e24; font: 9.7px 'DejaVu Sans'; text-anchor: start" x="139.873119" y="63.79274" transform="rotate(-0, 139.873119, 63.79274)">+236.4</text>
+   </g>
+   <g id="text_9">
+    <text style="fill: #192e24; font: 9.7px 'DejaVu Sans'; text-anchor: start" x="128.532692" y="88.316643" transform="rotate(-0, 128.532692, 88.316643)">+185.6</text>
+   </g>
+   <g id="text_10">
+    <text style="fill: #192e24; font: 9.7px 'DejaVu Sans'; text-anchor: start" x="212.5815" y="112.840545" transform="rotate(-0, 212.5815, 112.840545)">+562.0</text>
+   </g>
+   <g id="text_11">
+    <text style="fill: #11633b; font: 700 9.7px 'DejaVu Sans'; text-anchor: start" x="89.137878" y="137.364447" transform="rotate(-0, 89.137878, 137.364447)">+9.1</text>
+   </g>
+  </g>
+  <g id="text_12">
+   <text style="fill: #192e24; font: 600 10.7px 'DejaVu Sans'; text-anchor: start" x="5.256" y="16.182531" transform="rotate(-0, 5.256, 16.182531)">Extra time (ms / update)</text>
+  </g>
+  <g id="text_13">
+   <text style="fill: #415b50; font: 9.5px 'DejaVu Sans'; text-anchor: start" x="5.256" y="32.634" transform="rotate(-0, 5.256, 32.634)">Native π₀.₅: 119.0 ms / update</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p8e1f5d756a">
+   <rect x="84.096" y="47.628" width="170.82" height="100.548"/>
+  </clipPath>
+ </defs>
+</svg>
