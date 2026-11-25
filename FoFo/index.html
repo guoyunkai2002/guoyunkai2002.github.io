@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#e7f1e5">
   <link rel="icon" href="assets/brand/fofo-48.png" sizes="48x48">
-  <link rel="stylesheet" href="styles.css?v=92ca996340">
+  <link rel="stylesheet" href="styles.css?v=7dfae5dc25">
   <title>FoFo · Focus and Follow</title>
   <link rel="canonical" href="https://guoyunkai2002.github.io/FoFo/">
   <meta name="description" content="FoFo uses action-to-visual attention from one robot decision to allocate visual patches for the next, with a fixed patch budget and full-image coverage.">
@@ -43,13 +43,13 @@
       </div>
     </header>
     <figure class="teaser" id="trajectory-film">
-      <video id="trajectory-video" width="1200" height="512" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp" aria-label="RoboCasa and real-robot trajectories with the measured attention prior and sampling grid">
-        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4" type="video/mp4">
-        <source src="assets/teaser/trajectories.mp4" type="video/mp4">
-        <a href="assets/teaser/trajectories.mp4">Download the trajectory film</a>
+      <video id="trajectory-video" width="1200" height="512" controls autoplay muted loop playsinline preload="metadata" poster="assets/teaser/trajectories.webp?v=6c821fb7b79a" aria-label="RoboCasa and real-robot footage with display-filtered attention and the recorded sampling grid">
+        <source media="(max-width: 600px)" src="assets/teaser/trajectories-mobile.mp4?v=8c88cccc353a" type="video/mp4">
+        <source src="assets/teaser/trajectories.mp4?v=fba1525de256" type="video/mp4">
+        <a href="assets/teaser/trajectories.mp4?v=fba1525de256">Download the trajectory film</a>
       </video>
-      <figcaption class="wrap film-note">
-        <p>In RoboCasa, the robot moves broccoli from a plate into a pan. The real-robot clip shows FoFo applied offline to a recorded demonstration of sorting a green vegetable. Each heatmap shows the preceding decision’s attention, which guides the grid on the right.</p>
+      <figcaption class="film-note">
+        <p>The robot stirs vegetables in a successful RoboCasa rollout. The real-robot excerpt replays FoFo offline as the gripper lifts a green vegetable. The center view filters isolated peaks in the preceding decision’s attention for display. The right view shows the grid FoFo actually used.</p>
         <button class="motion-control" type="button" aria-controls="trajectory-video" hidden>Pause animation</button>
       </figcaption>
     </figure>
@@ -89,9 +89,9 @@
       <div class="method-intro">
         <div class="method-copy">
           <h3>Focus</h3>
-          <p>Before visual encoding, FoFo places more patches around the object being manipulated. A uniform component keeps the rest of the scene in view, and the number of visual tokens stays fixed.</p>
+          <p>At a drawer handle or a small assembly peg, a few pixels can determine whether a grasp succeeds. Focus changes the spacing of image patches before visual encoding. It mixes action-guided attention (65%) with uniform sampling (35%), so the interaction receives more patches while the full scene remains in view.</p>
           <h3>Follow</h3>
-          <p>The action prediction also yields a spatial attention map. FoFo carries that map into the next decision, where it guides how the new image is sampled.</p>
+          <p>Each trajectory starts with a uniform grid. As the policy predicts an action, it also measures which patches the action attended to. Follow maps that attention back to the camera image and uses it to sample the next observation. One policy pass yields both the current action and the next grid.</p>
         </div>
         <figure class="paper-figure" id="fig-motivation">
         <a href="assets/figures/motivation.webp" aria-label="View Figure 1 at full size">
@@ -106,10 +106,160 @@
         </a>
         <figcaption><strong>Figure 3. FoFo architecture.</strong> At each decision, the policy produces both the action chunk and the allocation state for the next observation.</figcaption>
       </figure>
+      <div class="training-note">
+        <h3>Learning from adjacent observations</h3>
+        <p>During fine-tuning, FoFo saves the allocation computed on a demonstration frame. When training returns to that trajectory, a neighboring frame can use the saved state. Separate states track the forward and backward passes through each demonstration, so one supervised forward pass per visit is enough.</p>
+        <p>At deployment, the robot uses only earlier observations. Each camera image is encoded afresh. If an object moves away from the previous hotspot, the uniform part of the grid still samples its new location.</p>
+      </div>
     </section>
     <section class="experiment section" id="experiment" aria-labelledby="experiment-title">
       <div class="wrap">
         <h2 id="experiment-title">Experiment</h2>
+        <section class="experiment-study" aria-labelledby="benchmark-title">
+          <h3 id="benchmark-title">Manipulation across 50 RoboCasa tasks</h3>
+          <div class="study-copy">
+            <p>We fine-tune two robot policies on Human300, which contains 100 human demonstrations for each of 300 tasks. We evaluate each FoFo policy with 50 complete rollouts per task. The benchmark covers 18 Atomic-Seen tasks, 16 Composite-Seen tasks and 16 Composite-Unseen tasks. Each task has equal weight in the overall success rate.</p>
+            <p>FoFo raises the overall success rate of π<sub>0.5</sub> from 16.9% to 32.5%. The largest gain is on Atomic-Seen tasks, where success rises from 39.6% to 60.3%. Xiaomi-Robotics-1 also improves on all three splits, reaching 59.9% overall and 84.1% on Atomic-Seen tasks.</p>
+          </div>
+          <div class="table-caption" id="benchmark-caption"><strong>Table 1.</strong> RoboCasa365 task success rates</div>
+          <p class="table-swipe-hint benchmark-hint">Scroll horizontally to see all columns.</p>
+          <div class="experiment-table-scroll" tabindex="0" role="region" aria-labelledby="benchmark-caption">
+            <table class="results-table benchmark-table" aria-labelledby="benchmark-caption" aria-describedby="benchmark-note">
+              <colgroup><col></colgroup><colgroup><col></colgroup><colgroup span="4"></colgroup>
+              <thead>
+                <tr><th rowspan="2" scope="col">Policy</th><th rowspan="2" scope="col">Family</th><th colspan="4" scope="colgroup">Success rate (%)</th></tr>
+                <tr><th scope="col">Atomic-Seen<br><small>18 tasks</small></th><th scope="col">Composite-Seen<br><small>16 tasks</small></th><th scope="col">Composite-Unseen<br><small>16 tasks</small></th><th scope="col">Overall<br><small>50 tasks</small></th></tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th scope="row">Paimon-0 <span class="policy-attribution">(Primotion)</span></th>
+                <td>VLA</td><td>79.3</td><td>55.8</td><td><strong>36.7</strong></td><td>58.1</td>
+              </tr>
+              <tr>
+                <th scope="row">Xiaomi-Robotics-1 <span class="policy-attribution">(Xiaomi Robotics)</span></th>
+                <td>VLA</td><td>80.2</td><td>57.1</td><td>32.1</td><td>57.4</td>
+              </tr>
+              <tr>
+                <th scope="row">Phasor-m7 <span class="policy-attribution">(Phasor)</span></th>
+                <td>VLA</td><td>78.7</td><td>57.4</td><td>31.5</td><td>56.8</td>
+              </tr>
+              <tr>
+                <th scope="row">Meituan-Robotics-0 <span class="policy-attribution">(Meituan Robotics)</span></th>
+                <td>VLA</td><td>77.3</td><td>57.8</td><td>27.1</td><td>55.0</td>
+              </tr>
+              <tr>
+                <th scope="row">LoopWAM <span class="policy-attribution">(Guo et al.)</span></th>
+                <td>WAM</td><td>78.0</td><td>48.3</td><td>15.4</td><td>48.5</td>
+              </tr>
+              <tr>
+                <th scope="row">ProWAM <span class="policy-attribution">(Zhang et al.)</span></th>
+                <td>WAM</td><td>76.0</td><td>46.5</td><td>18.2</td><td>48.1</td>
+              </tr>
+              <tr>
+                <th scope="row">PatchWAM <span class="policy-attribution">(Wang et al.)</span></th>
+                <td>WAM</td><td>78.7</td><td>46.4</td><td>13.8</td><td>47.6</td>
+              </tr>
+              <tr>
+                <th scope="row">ABot-M0.5 <span class="policy-attribution">(Chen et al.)</span></th>
+                <td>WAM</td><td>75.6</td><td>37.7</td><td>3.3</td><td>40.3</td>
+              </tr>
+              <tr>
+                <th scope="row">PRTS <span class="policy-attribution">(Zhang et al.)</span></th>
+                <td>VLA</td><td>66.3</td><td>30.3</td><td>18.8</td><td>39.6</td>
+              </tr>
+              <tr>
+                <th scope="row">RLDX-1 <span class="policy-attribution">(Kim et al.)</span></th>
+                <td>VLA</td><td>67.6</td><td>27.9</td><td>8.5</td><td>36.0</td>
+              </tr>
+              <tr>
+                <th scope="row">WorldDreamer <span class="policy-attribution">(World Agents)</span></th>
+                <td>WAM</td><td>66.3</td><td>26.7</td><td>9.0</td><td>35.3</td>
+              </tr>
+              <tr>
+                <th scope="row">GR00T N1.5 <span class="policy-attribution">(NVIDIA)</span></th>
+                <td>VLA</td><td>50.7</td><td>14.8</td><td>2.7</td><td>23.9</td>
+              </tr>
+              <tr>
+                <th scope="row">LY-GWM-RoboCasa <span class="policy-attribution">(Ma et al.)</span></th>
+                <td>VLA + WM</td><td>48.3</td><td>16.3</td><td>3.1</td><td>23.6</td>
+              </tr>
+              <tr>
+                <th scope="row">GR00T N1.6 <span class="policy-attribution">(NVIDIA)</span></th>
+                <td>VLA</td><td>51.1</td><td>9.4</td><td>1.7</td><td>21.9</td>
+              </tr>
+              <tr>
+                <th scope="row">GigaWorld-Policy 0.1 <span class="policy-attribution">(Ye et al.)</span></th>
+                <td>WAM</td><td>44.4</td><td>11.8</td><td>2.9</td><td>20.7</td>
+              </tr>
+              <tr>
+                <th scope="row">π<sub>0.5</sub> <span class="policy-attribution">(Black et al.)</span></th>
+                <td>VLA</td><td>39.6</td><td>7.1</td><td>1.2</td><td>16.9</td>
+              </tr>
+              <tr>
+                <th scope="row">π<sub>0</sub> <span class="policy-attribution">(Black et al.)</span></th>
+                <td>VLA</td><td>34.6</td><td>6.1</td><td>1.1</td><td>14.8</td>
+              </tr>
+              <tr>
+                <th scope="row">Diffusion Policy <span class="policy-attribution">(Chi et al.)</span></th>
+                <td>Visuomotor</td><td>15.7</td><td>0.2</td><td>1.3</td><td>6.1</td>
+              </tr>
+              <tr class="fofo-row">
+                <th scope="row">π<sub>0.5</sub> + <strong>FoFo</strong></th>
+                <td>VLA</td><td>60.3 <span class="result-gain">(+20.7)</span></td><td>26.5 <span class="result-gain">(+19.4)</span></td><td>7.3 <span class="result-gain">(+6.1)</span></td><td>32.5 <span class="result-gain">(+15.6)</span></td>
+              </tr>
+              <tr class="fofo-row">
+                <th scope="row">Xiaomi-Robotics-1 + <strong>FoFo</strong></th>
+                <td>VLA</td><td><strong>84.1</strong> <span class="result-gain">(+3.9)</span></td><td><strong>59.5</strong> <span class="result-gain">(+2.4)</span></td><td>33.1 <span class="result-gain">(+1.0)</span></td><td><strong>59.9</strong> <span class="result-gain">(+2.5)</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note" id="benchmark-note">Baseline values are from the November 1, 2026 RoboCasa365 leaderboard. Parentheses give the change in percentage points from each policy’s published baseline. Bold values mark the highest success rate in each column.</p>
+        </section>
+        <section class="experiment-study" aria-labelledby="components-title">
+          <h3 id="components-title">Patch allocation and runtime</h3>
+          <div class="study-copy">
+            <p>To isolate the effect of each component, we initialize all five configurations from the same pretrained π<sub>0.5</sub>, train each for 800 steps on five NVIDIA RTX 6000 GPUs, and evaluate on the 18 Atomic-Seen tasks. Each decision executes five actions. Table 2 reports this controlled experiment separately from the main benchmark in Table 1.</p>
+            <p>An extra local crop raises the visual budget from 768 to 1,024 patches. Focus redistributes the original 768 patches, increasing the mean count in task-relevant regions from 25.00 to 64.67 and raising success from 41.3% to 62.8%. Follow carries attention into the next decision, reducing the number of decodes from two to one and inference time from 148.59 to 71.86 ms.</p>
+          </div>
+          <div class="table-caption" id="components-caption"><strong>Table 2.</strong> Patch allocation, manipulation success and computation</div>
+          <p class="table-swipe-hint components-hint">Scroll horizontally to see all columns.</p>
+          <div class="experiment-table-scroll" tabindex="0" role="region" aria-labelledby="components-caption">
+            <table class="results-table components-table" aria-labelledby="components-caption" aria-describedby="components-note">
+              <colgroup><col></colgroup><colgroup span="3"></colgroup><colgroup span="3"></colgroup><colgroup span="4"></colgroup>
+              <thead>
+                <tr><th rowspan="2" scope="col">Policy</th><th colspan="3" scope="colgroup">Components</th><th colspan="3" scope="colgroup">Visual processing</th><th colspan="4" scope="colgroup">Success and runtime</th></tr>
+                <tr><th scope="col">Focus</th><th scope="col">Follow</th><th scope="col">State reuse<br><small>during training</small></th><th scope="col">Task-relevant patches<br><small>mean count</small></th><th scope="col">Total visual patches</th><th scope="col">Decodes per decision</th><th scope="col">Success ↑<br><small>%</small></th><th scope="col">Inference ↓<br><small>ms/decision</small></th><th scope="col">Training ↓<br><small>s/update</small></th><th scope="col">Speedup ↑<br><small>×</small></th></tr>
+              </thead>
+              <tbody>
+              <tr>
+                <th scope="row">Native π<sub>0.5</sub></th>
+                <td>No</td><td>No</td><td>No</td><td>25.00</td><td>768</td><td>1</td><td>41.3</td><td>69.24</td><td>0.119</td><td>5.72</td>
+              </tr>
+              <tr>
+                <th scope="row">π<sub>0.5</sub> + extra local crop</th>
+                <td>No</td><td>No</td><td>No</td><td>51.8</td><td>1024</td><td>2</td><td>55.3</td><td>259.42</td><td>0.355</td><td>1.92</td>
+              </tr>
+              <tr>
+                <th scope="row">π<sub>0.5</sub> + Focus</th>
+                <td>Yes</td><td>No</td><td>No</td><td><strong>64.67</strong></td><td>768</td><td>2</td><td>62.8</td><td>148.59</td><td>0.305</td><td>2.24</td>
+              </tr>
+              <tr>
+                <th scope="row">π<sub>0.5</sub> + Focus + Follow</th>
+                <td>Yes</td><td>Yes</td><td>No</td><td><strong>64.67</strong></td><td>768</td><td>1</td><td>62.9</td><td>71.86</td><td>0.681</td><td>1.00</td>
+              </tr>
+              <tr class="fofo-row">
+                <th scope="row">π<sub>0.5</sub> + FoFo (full)</th>
+                <td>Yes</td><td>Yes</td><td>Yes</td><td><strong>64.67</strong></td><td>768</td><td>1</td><td><strong>63.0</strong></td><td>71.86</td><td>0.128</td><td>5.31</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note" id="components-note">Inference time is the mean per decision. Training time is the median per optimizer update. Training speedup is relative to Focus + Follow with history recomputation (1.00×).</p>
+          <div class="study-copy study-interpretation">
+            <p>Reusing the allocation state cuts training time from 0.681 to 0.128 seconds per update, a <strong>5.31× speedup</strong> over recomputing the previous attention. Full FoFo reaches <strong>63.0% success</strong> with one decode per decision. Relative to native π<sub>0.5</sub>, it adds 2.6 ms per decision and 9.1 ms per training update.</p>
+          </div>
+        </section>
         <section class="sim-demos" aria-labelledby="sim-title">
           <h3 id="sim-title">RoboCasa rollouts</h3>
           <p class="gallery-intro">Ten successful π<sub>0.5</sub> + FoFo episodes from the 17-task study. The clips replay the recorded actions at 2× speed.</p>
@@ -163,7 +313,10 @@
         </a>
         <figcaption><strong>Figure S3. Real-world demonstration setup.</strong> Green marks the arm, orange the cameras and blue the teleoperation equipment.</figcaption>
       </figure>
-            <p>We teleoperate an AgileX PiPER arm with a PIKA handheld unit to collect demonstrations. Two external cameras record the workspace, and a wrist camera records the interaction. The four clips below show the recorded tasks at their original speed.</p>
+            <div>
+              <p>We collected 100 demonstrations per task by teleoperating a six-axis AgileX PiPER arm with a PIKA handheld unit. Two external cameras record the workspace, and a wrist camera captures close interactions. The four demonstrations below play at their recorded speed.</p>
+              <p>We evaluated each policy in 100 trials per task with varied object placements. Assembly showed the largest gain, from 48 to 77 successes. In the task-relevant region, the mean patch count rose from 25 to 79, giving the policy a denser view of the small part and its target peg.</p>
+            </div>
           </div>
       <div class="video-grid real-grid"><figure class="clip">
           <video controls playsinline loading="lazy" preload="none" poster="data:image/webp;base64,UklGRlwBAABXRUJQVlA4IFABAAAQCgCdASpQADwAPuVkrU4pJaSiMBM5mSAciWUA0YAmvwSUvgfJ454MWhw/i5ThJz6/0q3E19eC0hmfGMH3iy3E0RCN7vxvEHn/ajR8/f4yxUdXfpKMGLx3gAD+7JZ72ecyvqlJwvjan3Mp7mpyIj10IfWNbmqHnT1qGRUFLqG7fl+RdApQZpGuhU3YHm1NDK1LCd42wJcHUCfzdBZldrLp/GghQwTz1LAh6em5WI5rkWm/yBedLO1r6H7357JFaTIVqGnaS+UvV0Xs1Bi6heksUGF9XYs2Y9rwT8qPoLr9EUC2OL0J4/tcwVXFzK7xc4GcKnZCoVBx6XXHLujY5FPnM34w90Cu4p68cRCkbJlmdEKQH9g758F7t5Dgcf8f7UFIKbu/dJFix3bmRuks86WY22oBXbWbl/6UxL+pzvdsYgKObvU17VR4jelhvs9sAAA=" data-poster="assets/real/assemble-parts.webp" aria-label="Assemble Parts" width="480" height="360"><source src="assets/real/assemble-parts.mp4" type="video/mp4"><a href="assets/real/assemble-parts.mp4">Download video</a></video>

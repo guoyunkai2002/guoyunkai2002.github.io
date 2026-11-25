@@ -13,6 +13,7 @@
   --mint: #e7f1e5;
   --line: #d4dfd3;
   --sans: "DM Sans", Arial, sans-serif;
+  --title-size: clamp(33px,3.65vw,58px);
 }
 * {box-sizing: border-box}
 [hidden] {display: none !important}
@@ -29,7 +30,7 @@ sup {font-size: .65em; line-height: 0; vertical-align: super}
 .skip:focus {position: absolute; top: 8px; left: 16px; z-index: 2; background: white; padding: 8px 15px}
 .hero {background: var(--mint); text-align: center}
 .hero-body {padding-block: clamp(38px,4.4vw,70px) clamp(30px,3.1vw,49px)}
-.publication-title {max-width: 1110px; margin-inline: auto; color: #1e3428; font-size: clamp(33px,3.65vw,58px); line-height: 1.09; font-weight: 630; letter-spacing: -.047em; text-wrap: balance}
+.publication-title {max-width: 1110px; margin-inline: auto; color: #1e3428; font-size: var(--title-size); line-height: 1.09; font-weight: 630; letter-spacing: -.047em; text-wrap: balance}
 .title-start {white-space: nowrap}
 .title-start img {height: 1.06em; width: 1.06em; vertical-align: -.14em; border-radius: .23em; margin-right: .16em}
 .publication-authors {max-width: 1000px; margin: 24px auto 0; font-size: clamp(17px,1.44vw,22px); font-weight: 530; line-height: 1.72}
@@ -44,8 +45,8 @@ sup {font-size: .65em; line-height: 0; vertical-align: super}
 .resource img {width: 18px; height: 18px; filter: brightness(0) invert(1)}
 .resource:disabled {background: #4c5750; color: white; cursor: not-allowed}
 a.resource:hover {background: #24543a}
-.teaser {margin: 0; background: #fff}
-.teaser video {width: 100%; height: auto; display: block; background: #192d23}
+.teaser {font-size: var(--title-size); width: min(17.25em,calc(100% - 28px)); margin: clamp(20px,2.4vw,38px) auto 0}
+.teaser video {width: 100%; height: auto; display: block; border-radius: 9px; background: #192d23}
 .film-note {display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-block: 11px 13px; color: var(--text); font-size: 14px}
 .motion-control {flex: none; min-height: 32px; border: 1px solid #bed0bd; border-radius: 18px; padding: 4px 12px; font: 550 13px/1.4 var(--sans); color: #2f6044; background: white; cursor: pointer}
 .motion-control:hover {background: #edf5ec}
@@ -71,6 +72,9 @@ h3 {font-size: clamp(21px,1.9vw,28px); font-weight: 610; letter-spacing: -.032em
 .paper-figure figcaption {margin-top: 10px; color: var(--text); font-size: 14px; line-height: 1.6}
 .paper-figure figcaption strong {color: var(--ink); font-weight: 650}
 #fig-architecture {margin: clamp(33px,3.9vw,60px) auto 0; max-width: 1020px}
+.training-note {max-width: 78ch; margin: clamp(30px,3.4vw,49px) auto 0; border-left: 3px solid #91b99b; padding-left: clamp(17px,2vw,28px)}
+.training-note p {margin-top: 10px; color: var(--text); font-size: clamp(16px,1.2vw,18px); line-height: 1.7}
+.real-setup p+p {margin-top: .85em}
 .experiment {background: #fafbf8; border-top: 1px solid var(--line)}
 .experiment h3 {text-align: center}
 .sim-demos {margin-top: clamp(27px,2.7vw,42px)}
@@ -102,6 +106,7 @@ footer p {color: var(--text); font-size: 12px}
   .wrap {width: calc(100% - 34px)}
   .hero-body {padding-block: 32px 27px}
   .publication-title {font-size: clamp(29px,5.45vw,39px)}
+  .teaser {width: calc(100% - 28px)}
   .publication-authors {margin-top: 17px; line-height: 1.6; font-size: 16px}
   .affiliations {display: block; line-height: 1.5}
   .mail {margin-top: 8px}
@@ -122,3 +127,115 @@ footer p {color: var(--text); font-size: 12px}
   .clip figcaption {font-size: 14px}
 }
 @media(prefers-reduced-motion: reduce) {html {scroll-behavior: auto}}
+
+.experiment-study {
+  margin: clamp(34px, 4.1vw, 64px) auto 0;
+  max-width: 1150px;
+}
+.experiment-study + .experiment-study,
+.experiment-study + .sim-demos {
+  border-top: 1px solid var(--line);
+  padding-top: clamp(34px, 3.8vw, 58px);
+  margin-top: clamp(38px, 4.2vw, 68px);
+}
+.study-copy {
+  max-width: 80ch;
+  margin: 17px auto 0;
+  color: var(--text);
+  font-size: clamp(16px, 1.16vw, 18px);
+  line-height: 1.72;
+}
+.study-copy p + p {margin-top: .8em}
+.study-copy strong {color: var(--ink); font-weight: 650}
+.table-caption {
+  margin: 26px 0 8px;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.45;
+  color: var(--ink);
+}
+.table-caption strong {font-weight: 700}
+.experiment-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border: 1px solid #cddaca;
+  border-radius: 8px;
+  background: white;
+  scrollbar-color: #819c85 #ebf1e9;
+}
+.experiment-table-scroll:focus-visible {outline-offset: 2px}
+.results-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.34;
+  font-variant-numeric: tabular-nums;
+}
+.results-table th, .results-table td {
+  padding: 9px 13px;
+  text-align: right;
+  vertical-align: middle;
+}
+.results-table thead th {
+  color: #243a2c;
+  background: #edf3eb;
+  font-weight: 650;
+}
+.results-table thead th[scope="colgroup"] {
+  text-align: center;
+  border-bottom: 1px solid #cddaca;
+  border-inline-start: 1px solid #cddaca;
+}
+.results-table thead small {font-size: .88em; font-weight: 450}
+.results-table tbody th {text-align: left; font-weight: 530}
+.results-table tbody :is(th, td) {border-top: 1px solid #e3e9e0}
+.results-table thead tr:first-child th:first-child {text-align: left}
+.results-table .fofo-row :is(th, td) {
+  background: #e6f2e4;
+  border-top-color: #c3d8c4;
+}
+.results-table .fofo-row th {color: #225839; font-weight: 650}
+.results-table td strong {font-weight: 740}
+.benchmark-table {min-width: 710px}
+.benchmark-table :is(tbody td:nth-child(2), thead th[rowspan]:nth-child(2)) {text-align: left}
+.benchmark-table .policy-attribution {color: #4e6053; font-weight: 400}
+.benchmark-table .result-gain {font-size: .89em; color: #275e43; white-space: nowrap}
+.benchmark-table tbody td:not(:nth-child(2)) {white-space: nowrap}
+.components-table {min-width: 990px}
+.components-table :is(th, td) {padding: 10px 8px}
+.components-table tbody th {min-width: 150px}
+.components-table thead th[scope="col"] {vertical-align: bottom}
+.components-table thead tr:nth-child(2) th:nth-child(-n + 3),
+.components-table tbody td:is(:nth-child(2), :nth-child(3), :nth-child(4)) {text-align: center}
+.table-note {
+  margin-top: 9px;
+  color: #4e6053;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.study-interpretation {margin-top: 24px}
+.table-swipe-hint {display: none; margin: 0 0 7px; color: #4e6053; font-size: 12px}
+@media (max-width: 1077px) {
+  .components-hint {display: block}
+}
+@media (max-width: 758px) {
+  .benchmark-hint {display: block}
+}
+@media (max-width: 720px) {
+  .results-table {font-size: 13px}
+  .results-table th, .results-table td {padding: 8px 9px}
+  .results-table tbody th,
+  .results-table thead tr:first-child th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    box-shadow: 1px 0 #cddaca;
+  }
+  .results-table tbody th {background: white}
+  .results-table .fofo-row th {background: #e6f2e4}
+  .benchmark-table tbody th, .components-table tbody th {min-width: 125px; max-width: 145px}
+  .table-note {font-size: 12px}
+}
+.components-table thead tr:nth-child(2) th:nth-child(3) {min-width: 82px}
+.components-table thead tr:nth-child(2) th:nth-last-child(-n + 4) {white-space: nowrap}
