@@ -5,6 +5,13 @@
   font-weight: 100 1000;
   font-display: swap;
 }
+@font-face {
+  font-family: "Barlow Condensed";
+  src: url("assets/fonts/barlow-condensed-semibold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
 :root {
   color-scheme: light;
   --ink: #21382b;
@@ -13,7 +20,7 @@
   --mint: #e7f1e5;
   --line: #d4dfd3;
   --sans: "DM Sans", Arial, sans-serif;
-  --title-size: clamp(33px,3.65vw,58px);
+  --title-size: clamp(20px,2.84vw,40px);
 }
 * {box-sizing: border-box}
 [hidden] {display: none !important}
@@ -31,6 +38,7 @@ sup {font-size: .65em; line-height: 0; vertical-align: super}
 .hero {background: var(--mint); text-align: center}
 .hero-body {padding-block: clamp(38px,4.4vw,70px) clamp(30px,3.1vw,49px)}
 .publication-title {max-width: 1110px; margin-inline: auto; color: #1e3428; font-size: var(--title-size); line-height: 1.09; font-weight: 630; letter-spacing: -.047em; text-wrap: balance}
+.title-line {display: block}
 .title-start {white-space: nowrap}
 .title-start img {height: 1.06em; width: 1.06em; vertical-align: -.14em; border-radius: .23em; margin-right: .16em}
 .publication-authors {max-width: 1000px; margin: 24px auto 0; font-size: clamp(17px,1.44vw,22px); font-weight: 530; line-height: 1.72}
@@ -45,7 +53,7 @@ sup {font-size: .65em; line-height: 0; vertical-align: super}
 .resource img {width: 18px; height: 18px; filter: brightness(0) invert(1)}
 .resource:disabled {background: #4c5750; color: white; cursor: not-allowed}
 a.resource:hover {background: #24543a}
-.teaser {font-size: var(--title-size); width: min(17.25em,calc(100% - 28px)); margin: clamp(20px,2.4vw,38px) auto 0}
+.teaser {font-size: var(--title-size); width: min(26.4em,calc(100% - 24px)); margin: clamp(20px,2.4vw,38px) auto 0}
 .teaser video {width: 100%; height: auto; display: block; border-radius: 9px; background: #192d23}
 .film-note {display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-block: 11px 13px; color: var(--text); font-size: 14px}
 .motion-control {flex: none; min-height: 32px; border: 1px solid #bed0bd; border-radius: 18px; padding: 4px 12px; font: 550 13px/1.4 var(--sans); color: #2f6044; background: white; cursor: pointer}
@@ -87,6 +95,9 @@ h3 {font-size: clamp(21px,1.9vw,28px); font-weight: 610; letter-spacing: -.032em
 .clip {min-width: 0}
 .clip video {display: block; border-radius: 8px; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #18291d}
 .real-grid video {aspect-ratio: 4/3}
+.clip-file {color: inherit; text-decoration-thickness: 1px; text-decoration-color: #9cb3a1}
+.clip-file:hover {color: var(--green); text-decoration-color: currentColor}
+.clip-status {display: block; margin-top: 6px; font-size: 13px; font-weight: 400}
 .clip figcaption {margin-top: 8px; font-size: 15px; font-weight: 600; line-height: 1.4}
 .clip figcaption small {display: block; margin-top: 4px; color: var(--text); font-size: 13px; font-weight: 400}
 footer {display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 25px 32px}
@@ -105,8 +116,6 @@ footer p {color: var(--text); font-size: 12px}
 @media(max-width: 720px) {
   .wrap {width: calc(100% - 34px)}
   .hero-body {padding-block: 32px 27px}
-  .publication-title {font-size: clamp(29px,5.45vw,39px)}
-  .teaser {width: calc(100% - 28px)}
   .publication-authors {margin-top: 17px; line-height: 1.6; font-size: 16px}
   .affiliations {display: block; line-height: 1.5}
   .mail {margin-top: 8px}
@@ -119,6 +128,11 @@ footer p {color: var(--text); font-size: 12px}
   .paper-figure figcaption {font-size: 13px}
   footer {display: block}
   footer p {margin-top: 8px}
+}
+@media(max-width: 600px) {
+  .hero-body {width: calc(100% - 16px)}
+  .publication-title {font-family: "Barlow Condensed", var(--sans); font-size: clamp(13px,4.7vw,28px); font-weight: 600; letter-spacing: -.015em; line-height: 1.17}
+  .teaser {font-size: clamp(13px,4.7vw,28px); width: min(20.5em,calc(100% - 14px))}
 }
 @media(max-width: 480px) {
   .chart-grid {grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; gap: 19px}

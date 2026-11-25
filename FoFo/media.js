@@ -17,7 +17,7 @@ if ('IntersectionObserver' in window) {
   previews.forEach(video => { video.poster = video.dataset.poster; });
 }
 
-if (!navigator.connection?.saveData) {
+if (!(navigator.connection && navigator.connection.saveData)) {
   function warmPlayer(video, level) {
     if (video.paused && (video.preload === 'none' || level === 'auto')) {
       video.preload = level;
@@ -54,3 +54,46 @@ if (!navigator.connection?.saveData) {
     video.addEventListener('pointerdown', () => warmPlayer(video, 'auto'), {passive: true});
   });
 }
+
+
+const galleryVideos = document.querySelectorAll('.clip video');
+galleryVideos.forEach(video => {
+  const figure = video.closest('.clip');
+  const fileLink = figure.querySelector('.clip-file');
+  const status = figure.querySelector('.clip-status');
+  const mp4 = video.querySelector('source[type^="video/mp4"]');
+  const webm = video.querySelector('source[type^="video/webm"]');
+  if (!mp4 || !webm || !fileLink || !status) return;
+  let retried = false;
+  let playbackRequested = false;
+
+  video.addEventListener('play', () => {
+    playbackRequested = true;
+    galleryVideos.forEach(other => {
+      if (other !== video && !other.paused) other.pause();
+    });
+  });
+  video.addEventListener('pause', () => {
+    if (!video.error) playbackRequested = false;
+  });
+  video.addEventListener('loadedmetadata', () => {
+    fileLink.href = video.currentSrc;
+    status.hidden = true;
+  });
+  function handleFailure() {
+    // Some players accept the container, then fail in their H.264 decoder.
+    if (!retried && video.error && video.currentSrc !== webm.src && video.canPlayType(webm.type)) {
+      retried = true;
+      fileLink.href = webm.src;
+      video.src = webm.src;
+      if (playbackRequested) video.play().catch(() => {
+        if (video.error) status.hidden = false;
+      });
+      return;
+    }
+    status.hidden = false;
+  }
+  video.addEventListener('error', handleFailure);
+  webm.addEventListener('error', handleFailure);
+  if (!video.canPlayType(mp4.type) && !video.canPlayType(webm.type)) status.hidden = false;
+});
